@@ -8,16 +8,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _register() {
-    String username = _emailController.text;
+    String username = _usernameController.text;
     String password = _passwordController.text;
-
-    List<List<String>> users = [
-      [username, password]
-    ];
 
     // Add the new user to the list
     addUser(username, password);
@@ -39,8 +35,8 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           children: <Widget>[
             TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              controller: _usernameController,
+              decoration: InputDecoration(labelText: 'Username'),
             ),
             TextField(
               controller: _passwordController,
@@ -50,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _register,
-              child: Text('Register'),
+              child: Text('Register Account'),
             ),
             TextButton(
               onPressed: () {
@@ -59,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
-              child: Text('Login'),
+              child: Text('Back to Login'),
             ),
           ],
         ),

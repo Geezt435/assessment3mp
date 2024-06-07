@@ -9,36 +9,46 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _login() {
     // Implement login logic
-    String username = _emailController.text;
+    String username = _usernameController.text;
     String password = _passwordController.text;
 
     List<List<String>> users = getUsers();
 
     bool isValidUser = false;
-    for (var account in users) {
-      if (username == account[0] || username == "admin" && password == account[1] || password == "admin") {
-      isValidUser = true;
-      break;
+
+    if (users.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No users registered'),
+        ),
+      );
+      return;
+    } else {
+      for (var account in users) {
+        if (username == account[0] && password == account[1]) {
+          isValidUser = true;
+          break;
+        }
       }
     }
 
     if (isValidUser) {
       // Successful login
       Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomePage()),
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } else {
       // Failed login
       ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Login failed'),
-      ),
+        const SnackBar(
+          content: Text('Login failed'),
+        ),
       );
     }
   }
@@ -54,8 +64,8 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: <Widget>[
             TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              controller: _usernameController,
+              decoration: const InputDecoration(labelText: 'Username'),
             ),
             TextField(
               controller: _passwordController,
@@ -74,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                   MaterialPageRoute(builder: (context) => RegisterPage()),
                 );
               },
-              child: const Text('Register'),
+              child: const Text('Register New Account'),
             ),
           ],
         ),
